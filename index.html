@@ -6,29 +6,36 @@
     </head>
     <body>
         <div id="elzero-app">
-            <form action="">
-                <input :type="inputType" placeholder="Type the password" v-model="passwordValue">
-                <button @click.prevent="showHidePassword()">show/hide password</button>
-            </form>
+            <input type="text" v-model="username">
+            <button @click="getRepos()">Get Repos</button>
+
+            <div v-for="repo in repos">
+                <h4>{{ repo.name }}</h4>
+            </div>
         </div>
 
         <script src="js/vue.js"></script>
+        <script src="js/axios.min.js"></script>
+
         <script>
             new Vue({
                 el: "#elzero-app",
                 data: {
-                    inputType: 'password',
-                    passwordValue: ''
+                    username: '', // like osamaelzero, or elzerowebschool
+                    repos: ''
                 }, 
                 
                 methods: {
-                    showHidePassword(){
-                        if(this.inputType == 'password'){
-                            this.inputType = 'text';
-                        } else {
-                            this.inputType = "password";
-                        }
-                    }
+                    getRepos: function(){
+                        return axios
+                            .get(`https://api.github.com/users/${this.username}/repos`)
+                            .then(response => {
+                                this.repos = response.data;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
                 }
             });
         </script>
