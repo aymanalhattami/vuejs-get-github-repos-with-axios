@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>VueJS</title>
+        <link href="css/bootstrap.css" />
+    </head>
+    <body>
+        <div id="elzero-app">
+            <form action="">
+                <input type="text" placeholder="Type the post title" v-model="input">
+                <button @click.prevent="convertToSlug()">Convert title to slug</button>
+            </form>
+            <p>https://elzero.org/<span>{{ output }}</span></p>
+        </div>
+
+        <script src="js/vue.js"></script>
+        <script>
+            new Vue({
+                el: "#elzero-app",
+                data: {
+                    input: '',
+                    output: ''
+                }, 
+                
+                methods: {
+                    convertToSlug(){
+                        var theSlug = this.input;
+                        
+                        // convert title to lowercase
+                        theSlug = theSlug.toLowerCase();
+
+                        // replace spaces with -
+                        theSlug = theSlug.replace(/\s+/g, "-");
+
+                        // replace & with "-and-"
+                        theSlug = theSlug.replace(/&/g, '-and-');
+
+                        // output the result
+                        this.output = theSlug;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
